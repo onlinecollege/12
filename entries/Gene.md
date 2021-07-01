@@ -1,0 +1,1 @@
+Gene is a part of the DNA.

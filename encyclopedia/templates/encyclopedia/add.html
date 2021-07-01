@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block body %}
+    <a href="{% url 'guide' %}">See how to add pages.</a>
+    <br>
     <form action="{% url 'add' %}" method="POST">
         {% csrf_token %}
         <div class="input-group mb-3">

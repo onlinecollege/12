@@ -15,7 +15,7 @@ def index(request):
     })
 
 
-def wiki(request, title):
+def lib(request, title):
     result = util.get_entry(title)
     if result == None:
         return render(request, "encyclopedia/error.html", {
@@ -35,7 +35,7 @@ def search(request):
         title =  form["q"]
         result = util.get_entry(title)
         if result:
-            return redirect('wiki/'+title)
+            return redirect('lib/'+title)
         else:
             results = []
             entries = util.list_entries()
@@ -60,7 +60,7 @@ def add(request):
 
         if result == None:
             util.save_entry(title, content)
-            return redirect('wiki/'+title)
+            return redirect('lib/'+title)
         else:
             return render(request, "encyclopedia/error.html", {
                 "message": "Page already exist",
@@ -75,7 +75,7 @@ def edit(request, title):
         form = request.POST
         content = form["content"]       
         util.save_entry(title, content)                
-        return HttpResponseRedirect(reverse("wiki", args=(title,)))
+        return redirect('/../lib/'+title)
     else:
         content = util.get_entry(title)
         return render(request, "encyclopedia/edit.html", {
@@ -87,5 +87,8 @@ def edit(request, title):
 def random(request):
     # Get a random title from list of entries
     title = choice(util.list_entries())
-    return redirect('wiki/'+title)
+    return redirect('lib/'+title)
       
+
+def guide(request):
+    return render(request, "encyclopedia/guide.html")
