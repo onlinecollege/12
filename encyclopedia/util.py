@@ -2,7 +2,7 @@ import re
 
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
-
+from markdown2 import Markdown
 
 def list_entries():
     """
@@ -22,7 +22,7 @@ def save_entry(title, content):
     filename = f"entries/{title}.md"
     if default_storage.exists(filename):
         default_storage.delete(filename)
-    default_storage.save(filename, ContentFile(content))
+    default_storage.save(filename, ContentFile(content.encode('ascii')))
 
 
 def get_entry(title):
@@ -35,3 +35,10 @@ def get_entry(title):
         return f.read().decode("utf-8")
     except FileNotFoundError:
         return None
+
+
+# Converting markdown to html
+def convert(result):
+    markdowner = Markdown()
+    html = markdowner.convert(result)
+    return html
